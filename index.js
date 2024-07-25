@@ -1,1 +1,4 @@
-console.log("start");
+const recruitmentTask = require("./recruiting/recruitmentTask");
+
+console.log("ok");
+recruitmentTask();
