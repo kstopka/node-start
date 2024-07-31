@@ -1,4 +1,6 @@
-const recruitmentTask = require("./recruiting/recruitmentTask");
+const { recruitmentTask } = require("./recruiting");
+const { heinekenLottery } = require("./functions/heinekenLottery");
 
-console.log("ok");
-recruitmentTask();
+console.log("start");
+// recruitmentTask();
+heinekenLottery();

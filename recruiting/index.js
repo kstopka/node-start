@@ -75,4 +75,4 @@ const runSolution = () => {
   console.log(solution(expenses));
 };
 
-module.exports = runSolution;
+module.exports = { runSolution };
