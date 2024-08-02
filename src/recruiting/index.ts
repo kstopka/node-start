@@ -1,5 +1,13 @@
-const getExpensesUpToFirstSunday = (expenses) => {
-  const result = [];
+type Expenses = {
+  [month: string]: {
+    [day: string]: {
+      [category: string]: number[];
+    };
+  };
+};
+
+const getExpensesUpToFirstSunday = (expenses: Expenses): number[] => {
+  const result: number[] = [];
 
   for (const [month, days] of Object.entries(expenses)) {
     const sortedDays = Object.keys(days).sort(
@@ -32,7 +40,7 @@ const getExpensesUpToFirstSunday = (expenses) => {
   return result;
 };
 
-const median = (numbers) => {
+const median = (numbers: number[]): number => {
   const sorted = numbers.slice().sort((a, b) => a - b);
   const mid = Math.floor(sorted.length / 2);
 
@@ -43,12 +51,12 @@ const median = (numbers) => {
   }
 };
 
-const solution = (expenses) => {
+const solution = (expenses: Expenses): number => {
   const allExpenses = getExpensesUpToFirstSunday(expenses);
   return median(allExpenses);
 };
 
-const expenses = {
+const expenses: Expenses = {
   "2023-01": {
     "01": {
       food: [22.11, 43, 11.72, 2.2, 36.29, 2.5, 19],
@@ -75,4 +83,4 @@ const runSolution = () => {
   console.log(solution(expenses));
 };
 
-module.exports = { runSolution };
+export { runSolution };

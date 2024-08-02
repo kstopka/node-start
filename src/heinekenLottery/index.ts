@@ -1,11 +1,12 @@
-const axios = require("axios");
-require("dotenv").config();
-const { saveData } = require("./saveData");
+import axios, { AxiosRequestConfig } from "axios";
+import { config } from "dotenv";
+import { addToJson } from "./addToJson";
+config();
 
 const { name, surname, email, phone, agreement1, agreement2, cookie } =
-  process.env;
+  process.env as Record<string, string>;
 
-const sendHeinekenDataLottery = async (code) => {
+const sendHeinekenDataLottery = async (code: string): Promise<void> => {
   const data = {
     code,
     name,
@@ -15,8 +16,7 @@ const sendHeinekenDataLottery = async (code) => {
     agreement1,
     agreement2,
   };
-
-  const config = {
+  const config: AxiosRequestConfig = {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
       Accept: "*/*",
@@ -27,23 +27,22 @@ const sendHeinekenDataLottery = async (code) => {
       Cookie: cookie,
     },
   };
-
   try {
     const response = await axios.post(
       "https://iframe-loteria-pl.heineken.com/api/saveform",
-      new URLSearchParams(data),
+      new URLSearchParams(data as any),
       config
     );
     if (!response.data) {
-      saveData(code, "error");
+      console.log("error");
     }
     if (response.data && !response.data.wynik.includes("Ups")) {
-      saveData(code);
       console.log("OK!: ", code);
+      addToJson(code);
     }
     if (response.data && response.data.wynik.includes("Ups")) {
-      saveData(code, "Ups!");
       console.log("Ups!: ", code);
+      console.log("Ups!: ", response.data.wynik);
     }
   } catch (error) {
     console.error("Error:", error);
@@ -51,4 +50,4 @@ const sendHeinekenDataLottery = async (code) => {
   }
 };
 
-module.exports = { sendHeinekenDataLottery };
+export { sendHeinekenDataLottery };
